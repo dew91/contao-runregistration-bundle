@@ -15,20 +15,16 @@
 	// === AB HIER NICHTS MEHR ÄNDERN ===
 
 	// Backend-Module registrieren
-	array_insert($GLOBALS['BE_MOD']['content'], 2, array
-	(
-		'Laufanmeldung' => array
-		(
-			'tables' => array('tl_runregistration_run', 'tl_runregistration_track', 'tl_runregistration_attendee'),
-			'exportcsv' => array('\DominicErnst\LaufanmeldungBundle\Classes\LaufanmeldungExport', 'ShowExportSettings')
-		)
-	));
+	$GLOBALS['BE_MOD']['content']['runregistration'] = array(
+		'tables' => array('tl_runregistration_run', 'tl_runregistration_track', 'tl_runregistration_attendee'),
+		'exportcsv' => array('Dew91\ContaoRunregistrationBundle\RunregistrationExport', 'ShowExportSettings')
+	);
 	
 	// Frontend-Module registrieren
-	$GLOBALS['FE_MOD']['Laufanmeldung']['ModuleLaufanmeldungFormular'] = 'DominicErnst\\LaufanmeldungBundle\\Modules\\ModuleLaufanmeldungFormular';
+	$GLOBALS['FE_MOD']['RunregistrationBundle']['RunregistrationForm'] = 'DominicErnst\\LaufanmeldungBundle\\Modules\\ModuleLaufanmeldungFormular';
 	
 	// Modelle registrieren
-	$GLOBALS['TL_MODELS']['tl_runregistration_run'] = '\Dew91\ContaoRunregistrationBundle\Models\RunregistrationRunModel';
-	$GLOBALS['TL_MODELS']['tl_laufanmeldung_strecke'] = '\DominicErnst\LaufanmeldungBundle\Models\LaufanmeldungStreckeModel';
-	$GLOBALS['TL_MODELS']['tl_laufanmeldung_teilnehmer'] = '\DominicErnst\LaufanmeldungBundle\Models\LaufanmeldungTeilnehmerModel';
+	$GLOBALS['TL_MODELS']['tl_runregistration_run'] = '\Dew91\ContaoRunregistrationBundle\RunregistrationRunModel';
+	$GLOBALS['TL_MODELS']['tl_runregistration_track'] = '\Dew91\ContaoRunregistrationBundle\RunregistrationTrackModel';
+	$GLOBALS['TL_MODELS']['tl_runregistration_attendee'] = '\Dew91\ContaoRunregistrationBundle\RunregistrationAttendeeModel';
 ?>
