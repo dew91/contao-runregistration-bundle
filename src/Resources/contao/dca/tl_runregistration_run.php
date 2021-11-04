@@ -1,8 +1,8 @@
 <?php
-	$GLOBALS['TL_DCA']['tl_laufanmeldung_lauf'] = [
+	$GLOBALS['TL_DCA']['tl_runregistration_run'] = [
 		'config' => [
 			'dataContainer' => 'Table',
-			'ctable' => 'tl_laufanmeldung_strecke',
+			'ctable' => 'tl_runregistration_track',
 			'notCopyable' => true,
 			'switchToEdit' => false,
 			'enableVersioning' => false,
@@ -23,22 +23,22 @@
 				'fields' => ['date', 'name'],
 				'showColumns' => true,
 				'format' => '%s',
-				'label_callback' => array('tl_laufanmeldung_lauf', 'formatLabel'),
+				'label_callback' => array('tl_runregistration_run', 'formatLabel'),
 			],
 			'global_operations' => [],
 			'operations' => [
 				'edit' => [
-					'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_lauf']['editstrecke'],
-					'href' => 'table=tl_laufanmeldung_strecke',
-					'icon' => '/bundles/laufanmeldung/map.png',
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_run']['edittrack'],
+					'href' => 'table=tl_runregistration_track',
+					'icon' => '/bundles/contaorunregistration/map.png',
 				],
 				'editheader' => [
-					'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_lauf']['edit'],
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_run']['edit'],
 					'href' => 'act=edit',
 					'icon' => 'edit.svg',
 				],
 				'delete' => [
-					'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_lauf']['delete'],
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_run']['delete'],
 					'href' => 'act=delete',
 					'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"',
 					'icon' => 'delete.svg',
@@ -47,7 +47,7 @@
 		],
 		'palettes' => [
 			'__selector__' => [],
-			'default' => '{title_general},date,name;{title_anmeldezeit},anmeldungstart,anmeldungende',
+			'default' => '{title_general},date,name;{title_registration_period},registration_start,registration_end',
 		],
 		'subpalettes' => [
 			'' => '',
@@ -60,7 +60,7 @@
 				'sql' => "int(10) unsigned NOT NULL default '0'",
 			],
 			'date' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_lauf']['field_date'],
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_run']['field_date'],
 				'exclude' => true,
 				'search' => true,
 				'sorting' => true,
@@ -77,7 +77,7 @@
 				'sql' => "int(10) unsigned NULL",
 			],
 			'name' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_lauf']['field_name'],
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_run']['field_name'],
 				'exclude' => true,
 				'search' => true,
 				'sorting' => true,
@@ -90,10 +90,10 @@
 					'unique' => true,
 					'tl_class' => 'w50',
 				],
-				'sql' => "varchar(80) NOT NULL",
+				'sql' => "varchar(80) NOT NULL default ''",
 			],
-			'anmeldungstart' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_lauf']['field_anmeldungstart'],
+			'registration_start' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_run']['field_registration_start'],
 				'exclude' => true,
 				'search' => false,
 				'sorting' => false,
@@ -107,8 +107,8 @@
 				],
 				'sql' => "varchar(10) NOT NULL default ''",
 			],
-			'anmeldungende' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_lauf']['field_anmeldungende'],
+			'registration_end' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_run']['field_registration_end'],
 				'exclude' => true,
 				'search' => false,
 				'sorting' => false,
@@ -120,17 +120,17 @@
 					'datepicker' => true,
 					'tl_class' => 'w50 wizard',
 				],
-				'sql' => "varchar(10) NOT NULL",
+				'sql' => "varchar(10) NOT NULL default ''",
 			],
 		],
 	];
 	
-	class tl_laufanmeldung_lauf extends Backend
+	class tl_runregistration_run extends Backend
 	{
 		public function formatLabel($row, $label, DataContainer $dc, $args)
 		{
-			$args[0] = '<img src="/bundles/laufanmeldung/calendar.png" alt="" />&nbsp;'.date('d.m.Y', $row['date']);
-			$args[1] = '<img src="/bundles/laufanmeldung/medal_gold_2.png" alt="" />&nbsp;'.$row['name'];
+			$args[0] = '<img src="/bundles/contaorunregistration/calendar.png" alt="" />&nbsp;'.date('d.m.Y', $row['date']);
+			$args[1] = '<img src="/bundles/contaorunregistration/medal_gold_2.png" alt="" />&nbsp;'.$row['name'];
 			return $args;
 		}
 	}

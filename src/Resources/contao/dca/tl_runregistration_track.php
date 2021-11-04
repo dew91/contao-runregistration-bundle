@@ -1,9 +1,9 @@
 <?php
-	$GLOBALS['TL_DCA']['tl_laufanmeldung_strecke'] = [
+	$GLOBALS['TL_DCA']['tl_runregistration_track'] = [
 		'config' => [
 			'dataContainer' => 'Table',
-			'ptable' => 'tl_laufanmeldung_lauf',
-			'ctable' => array('tl_laufanmeldung_teilnehmer'),
+			'ptable' => 'tl_runregistration_run',
+			'ctable' => array('tl_runregistration_attendee'),
 			'doNotDeleteRecords' => false,
 			'notCopyable' => true,
 			'switchToEdit' => false,
@@ -17,35 +17,35 @@
 		'list' => [
 			'sorting' => [
 				'mode' => 2,
-				'fields' => ['start', 'name'],
+				'fields' => ['start_time', 'name'],
 				'flag' => 11,
 				'panelLayout' => 'sort',
 			],
 			'label' => [
-				'fields' => ['name', 'start'],
+				'fields' => ['name', 'start_time'],
 				'showColumns' => true,
 				'format' => '%s',
-				'label_callback' => array('tl_laufanmeldung_strecke', 'formatLabel'),
+				'label_callback' => array('tl_runregistration_track', 'formatLabel'),
 			],
 			'global_operations' => [],
 			'operations' => [
 				'exportcsv' => [
-					'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_strecke']['exportcsv'],
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_track']['exportcsv'],
 					'href' => 'key=exportcsv',
-					'icon' => '/bundles/laufanmeldung/table_go.png',
+					'icon' => '/bundles/runregistration/table_go.png',
 				],
-				'editteilnehmer' => [
-					'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_strecke']['editteilnehmer'],
-					'href' => 'table=tl_laufanmeldung_teilnehmer',
-					'icon' => '/bundles/laufanmeldung/group.png',
+				'editattendee' => [
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_track']['editattendee'],
+					'href' => 'table=tl_runregistration_attendee',
+					'icon' => '/bundles/contaorunregistration/group.png',
 				],
 				'edit' => [
-					'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_strecke']['edit'],
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_track']['edit'],
 					'href' => 'act=edit',
 					'icon' => 'edit.svg',
 				],
 				'delete' => [
-					'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_strecke']['delete'],
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_track']['delete'],
 					'href' => 'act=delete',
 					'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"',
 					'icon' => 'delete.svg',
@@ -54,7 +54,7 @@
 		],
 		'palettes' => [
 			'__selector__' => [],
-			'default' => '{title_general},name,start,onlineanmeldung',
+			'default' => '{title_general},name,start_time,online_registration_enabled',
 		],
 		'subpalettes' => [
 			'' => '',
@@ -65,7 +65,7 @@
 			],
 			'pid' => array
 			(
-				'foreignKey' => 'tl_laufanmeldung_lauf.id',
+				'foreignKey' => 'tl_runregistration_run.id',
 				'sql' => "int(10) unsigned NOT NULL default '0'",
 				'relation' => array('type'=>'belongsTo', 'load'=>'eager')
 			),
@@ -73,7 +73,7 @@
 				'sql' => "int(10) unsigned NOT NULL default '0'",
 			],
 			'name' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_strecke']['field_name'],
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_track']['field_name'],
 				'exclude' => true,
 				'search' => true,
 				'sorting' => true,
@@ -86,20 +86,21 @@
 					'unique' => false,
 					'tl_class' => 'w50',
 				],
-				'sql' => "varchar(80) NOT NULL",
+				'sql' => "varchar(80) NOT NULL default ''",
 			],
-			'start' => array
+			'start_time' => array
 			(
-				'label'                   => &$GLOBALS['TL_LANG']['tl_laufanmeldung_strecke']['field_start'],
-				'default'                 => '',
-				'exclude'                 => true,
-				'sorting'                 => true,
-				'inputType'               => 'text',
-				'eval'                    => array('rgxp'=>'time', 'doNotCopy'=>true, 'tl_class'=>'w50'),
-				'sql'                     => "int(10) unsigned NOT NULL default '0'"
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_track']['field_start_time'],
+				'default' => '',
+				'exclude' => true,
+				'sorting' => true,
+				'inputType' => 'text',
+				'eval' => array('rgxp'=>'time', 'doNotCopy'=>true, 'tl_class'=>'w50'),
+				'default' => 1636012800,
+				'sql' => "int(10) unsigned NOT NULL default '0'"
 			),
-			'onlineanmeldung' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_strecke']['field_onlineanmeldung'],
+			'online_registration_enabled' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_track']['field_online_registration_enabled'],
 				'exclude' => true,
 				'search' => false,
 				'sorting' => false,
@@ -114,12 +115,12 @@
 		],
 	];
 	
-	class tl_laufanmeldung_strecke extends Backend
+	class tl_runregistration_track extends Backend
 	{
 		public function formatLabel($row, $label, DataContainer $dc, $args)
 		{
-			$args[0] = '<img src="/bundles/laufanmeldung/medal_gold_2.png" alt="" />&nbsp;'.$row['name'];
-			$args[1] = '<img src="/bundles/laufanmeldung/clock.png" alt="" />&nbsp;'.date('H:i', $row['start']).' Uhr';
+			$args[0] = '<img src="/bundles/runregistration/medal_gold_2.png" alt="" />&nbsp;'.$row['name'];
+			$args[1] = '<img src="/bundles/runregistration/clock.png" alt="" />&nbsp;'.date('H:i', $row['start_time']).' Uhr';
 			return $args;
 		}
 	}

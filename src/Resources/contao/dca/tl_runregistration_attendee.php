@@ -1,8 +1,8 @@
 <?php
-	$GLOBALS['TL_DCA']['tl_laufanmeldung_teilnehmer'] = [
+	$GLOBALS['TL_DCA']['tl_runregistration_attendee'] = [
 		'config' => [
 			'dataContainer' => 'Table',
-			'ptable' => 'tl_laufanmeldung_strecke',
+			'ptable' => 'tl_runregistration_track',
 			'doNotDeleteRecords' => false,
 			'notCopyable' => true,
 			'switchToEdit' => false,
@@ -16,39 +16,39 @@
 		'list' => [
 			'sorting' => [
 				'mode' => 2,
-				'fields' => ['name', 'vorname', 'verein'],
+				'fields' => ['last_name', 'first_name', 'club'],
 				'flag' => 11,
 				'panelLayout' => 'sort,filter;search,limit',
 			],
 			'label' => [
-				'fields' => ['name', 'verein'],
+				'fields' => ['last_name', 'club'],
 				'showColumns' => true,
 				'format' => '%s',
-				'label_callback' => array('tl_laufanmeldung_teilnehmer', 'formatLabel'),
+				'label_callback' => array('tl_runregistration_attendee', 'formatLabel'),
 			],
 			'global_operations' => [],
 			'operations' => [
 				'edit' => [
-					'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['edit'],
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['edit'],
 					'href' => 'act=edit',
 					'icon' => 'edit.svg',
 				],
 				'delete' => [
-					'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['delete'],
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['delete'],
 					'href' => 'act=delete',
 					'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"',
 					'icon' => 'delete.svg',
 				],
 				'show' => [
-					'label'               => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['show'],
-					'href'                => 'act=show',
-					'icon'                => 'show.svg'
+					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['show'],
+					'href' => 'act=show',
+					'icon' => 'show.svg'
 				],
 			],
 		],
 		'palettes' => [
 			'__selector__' => [],
-			'default' => '{title_personal},name,vorname,geschlecht,geburtstag;{title_address},email,strasse,plz,ort;{title_run},verein,zeitanmeldung,anmeldungaktiv',
+			'default' => '{title_personal},last_name,first_name,gender,birthday;{title_address},email,street,zip,city;{title_run},club,registration_timestamp,registration_confirmed',
 		],
 		'subpalettes' => [
 			'' => '',
@@ -59,15 +59,15 @@
 			],
 			'pid' => array
 			(
-				'foreignKey' => 'tl_laufanmeldung_strecke.id',
+				'foreignKey' => 'tl_runregistration_track.id',
 				'sql' => "int(10) unsigned NOT NULL default '0'",
 				'relation' => array('type'=>'belongsTo', 'load'=>'eager')
 			),
 			'tstamp' => [
 				'sql' => "int(10) unsigned NOT NULL default '0'",
 			],
-			'name' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_name'],
+			'last_name' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_last_name'],
 				'exclude' => false,
 				'search' => true,
 				'sorting' => true,
@@ -79,10 +79,10 @@
 					'maxlength' => 50,
 					'tl_class' => 'w50',
 				],
-				'sql' => "varchar(50) NOT NULL",
+				'sql' => "varchar(50) NOT NULL default ''",
 			],
-			'vorname' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_vorname'],
+			'first_name' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_first_name'],
 				'exclude' => false,
 				'search' => true,
 				'sorting' => true,
@@ -94,34 +94,34 @@
 					'maxlength' => 50,
 					'tl_class' => 'w50',
 				],
-				'sql' => "varchar(50) NOT NULL",
+				'sql' => "varchar(50) NOT NULL default ''",
 			],
-			'geschlecht' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_geschlecht'],
+			'gender' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_gender'],
 				'exclude' => false,
 				'search' => false,
 				'sorting' => true,
 				'filter' => true,
 				'flag' => 2,
 				'inputType' => 'select',
-				'options' => array('m' => 'm&auml;nnlich', 'w' => 'weiblich'),
+				'options' => array('m' => 'm&auml;nnlich', 'f' => 'weiblich'),
 				'eval' => [
 					'mandatory' => true,
 					'maxlength' => 50,
 					'tl_class' => 'w50',
 				],
-				'sql' => "char(1) NOT NULL",
+				'sql' => "char(1) NOT NULL default 'm'",
 			],
-			'geburtstag' => array
+			'birthday' => array
 			(
-				'label'                   => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_geburtstag'],
-				'exclude'                 => false,
-				'inputType'               => 'text',
-				'eval'                    => array('mandatory' => true, 'rgxp'=>'date', 'datepicker' => true, 'doNotCopy'=>true, 'tl_class'=>'w50 wizard'),
-				'sql'                     => "int(11) NOT NULL default '0'"
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_birthday'],
+				'exclude' => false,
+				'inputType' => 'text',
+				'eval' => array('mandatory' => true, 'rgxp'=>'date', 'datepicker' => true, 'doNotCopy'=>true, 'tl_class'=>'w50 wizard'),
+				'sql' => "int(11) NOT NULL default '0'"
 			),
 			'email' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_email'],
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_email'],
 				'exclude' => false,
 				'search' => true,
 				'sorting' => false,
@@ -133,10 +133,10 @@
 					'maxlength' => 50,
 					'tl_class' => 'w50',
 				],
-				'sql' => "varchar(50) NOT NULL",
+				'sql' => "varchar(50) NOT NULL default ''",
 			],
-			'strasse' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_strasse'],
+			'street' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_street'],
 				'exclude' => false,
 				'search' => false,
 				'sorting' => false,
@@ -148,10 +148,10 @@
 					'maxlength' => 50,
 					'tl_class' => 'w50',
 				],
-				'sql' => "varchar(50) NOT NULL",
+				'sql' => "varchar(50) NOT NULL default ''",
 			],
-			'plz' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_plz'],
+			'zip' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_zip'],
 				'exclude' => false,
 				'search' => false,
 				'sorting' => false,
@@ -164,10 +164,10 @@
 					'rgxp' => 'natural',
 					'tl_class' => 'w50',
 				],
-				'sql' => "varchar(5) NOT NULL",
+				'sql' => "varchar(5) NOT NULL default ''",
 			],
-			'ort' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_ort'],
+			'city' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_city'],
 				'exclude' => false,
 				'search' => false,
 				'sorting' => false,
@@ -179,10 +179,10 @@
 					'maxlength' => 50,
 					'tl_class' => 'w50',
 				],
-				'sql' => "varchar(50) NOT NULL",
+				'sql' => "varchar(50) NOT NULL default ''",
 			],
-			'verein' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_verein'],
+			'club' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_club'],
 				'exclude' => false,
 				'search' => true,
 				'sorting' => true,
@@ -194,10 +194,10 @@
 					'maxlength' => 50,
 					'tl_class' => 'w50',
 				],
-				'sql' => "varchar(50) NOT NULL",
+				'sql' => "varchar(50) NOT NULL default ''",
 			],
-			'zeitanmeldung' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_zeitanmeldung'],
+			'registration_timestamp' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_registration_timestamp'],
 				'exclude' => true,
 				'search' => false,
 				'sorting' => true,
@@ -213,8 +213,8 @@
 				],
 				'sql' => "int(10) unsigned NOT NULL default '0'",
 			],
-			'ipanmeldung' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_ipanmeldung'],
+			'registration_ip' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_registration_ip'],
 				'exclude' => true,
 				'search' => false,
 				'sorting' => false,
@@ -227,8 +227,8 @@
 				'sql' => "varchar(15) NOT NULL default '0.0.0.0'",
 				
 			],
-			'anmeldungaktiv' => [
-				'label' => &$GLOBALS['TL_LANG']['tl_laufanmeldung_teilnehmer']['field_anmeldungaktiv'],
+			'registration_confirmed' => [
+				'label' => &$GLOBALS['TL_LANG']['tl_runregistration_attendee']['field_registration_confirmed'],
 				'exclude' => true,
 				'search' => false,
 				'sorting' => false,
@@ -243,17 +243,17 @@
 		],
 	];
 	
-	class tl_laufanmeldung_teilnehmer extends Backend
+	class tl_runregistration_attendee extends Backend
 	{
 		public function formatLabel($row, $label, DataContainer $dc, $args)
 		{
-			// Icon je nach Geschlecht festlegen
-			if($row['geschlecht'][0] =='m')
-				$iconsrc = '/bundles/laufanmeldung/user.png';
+			// Select icon by gender
+			if($row['gender'][0] =='m')
+				$iconsrc = '/bundles/contaorunregistration/user.png';
 			else
-				$iconsrc = '/bundles/laufanmeldung/user_female.png';
+				$iconsrc = '/bundles/contaorunregistration/user_female.png';
 			
-			$args[0] = '<img src="'.$iconsrc.'" alt="" />&nbsp;'.$row['name'].', '.$row['vorname'];
+			$args[0] = '<img src="'.$iconsrc.'" alt="" />&nbsp;'.$row['last_name'].', '.$row['first_name'];
 			return $args;
 		}
 	}
