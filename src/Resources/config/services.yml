@@ -1,0 +1,4 @@
+services:
+#    laufanmeldung.example:
+#        class: DominicErnst\LaufanmeldungBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

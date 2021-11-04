@@ -1,0 +1,19 @@
+Laufanmeldung-Bundle
+
+Dieses Contao-Bundle stellt Formulare zur Anmeldung zu Laufveranstaltungen
+sowohl im Backend als auch im Frontend zur Verfügung. Zusätzlich können
+angemeldete Teilnehmer sortiert nach Strecke als CSV-Datei exportiert werden.
+
+In der Datei Resources/contao/config/config.php müssen vor der Verwendung die
+Google reCaptcha-Keys und die URL zur Datenschutzerklärung eingetragen werden.
+
+Zur Installation muss der Bundle-Ordner in das /src-Verzeichnis (ggf.
+erstellen) kopiert werden. Anschließend muss in der Datei app/AppKernel.php
+das Bundle wie folgt registriert werden:
+new DominicErnst\LaufanmeldungBundle\LaufanmeldungBundle(),
+
+Zu guter Letzt noch einmal das Contao Installtool aufrufen, um die notwendigen
+Änderungen an Tabellen vorzunehmen.
+
+
+Copyright (c) 2016 Dominic Ernst - http://www.dominic-ernst.com
