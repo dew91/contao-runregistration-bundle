@@ -32,7 +32,7 @@
 				'exportcsv' => [
 					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_track']['exportcsv'],
 					'href' => 'key=exportcsv',
-					'icon' => '/bundles/runregistration/table_go.png',
+					'icon' => '/bundles/contaorunregistration/table_go.png',
 				],
 				'editattendee' => [
 					'label' => &$GLOBALS['TL_LANG']['tl_runregistration_track']['editattendee'],
