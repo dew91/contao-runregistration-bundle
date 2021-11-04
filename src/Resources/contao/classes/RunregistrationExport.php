@@ -40,14 +40,16 @@ class RunregistrationExport extends \Backend
 				<input type="hidden" name="FORM_SUBMIT" value="RunregistrationExport">
 				<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
 				<fieldset class="tl_tbox nolegend">
-					<div>
-						'.(count($exportErrors)?'<p>'.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_errors_pretext'].'<ul><li>'.join('</li><li>', $exportErrors).'</ul></p>':'').'
+					'.(count($exportErrors)?'<div class="widget"><p>'.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_errors_pretext'].'<ul><li>'.join('</li><li>', $exportErrors).'</ul></p></div>':'').'
+					<div class="w50 widget">
 						<h3><label for="separator">'.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_label_separator'][0].'</label></h3>
 						<select name="separator" id="separator" class="tl_select" onfocus="Backend.getScrollOffset()">
 							<option value=";">'.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_separator_semicolon'].'</option>
 							<option value=",">'.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_separator_comma'].'</option>
 						</select>
 						<p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_label_separator'][1].'</p>
+					</div>
+					<div class="w50 widget">
 						<h3><label for="encoding">'.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_label_charset'][0].'</label></h3>
 						<select name="encoding" id="encoding" class="tl_select" onfocus="Backend.getScrollOffset()">
 							<option value="Windows-1252">'.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_charset_Windows-1252'].'</option>
