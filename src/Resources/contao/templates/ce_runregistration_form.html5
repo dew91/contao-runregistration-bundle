@@ -1,0 +1,88 @@
+<div class="runregistration">
+	<?= $this->dumpTemplateVars() ?>
+	<h2><?= $this->runObj->name ?></h2>
+	<?php if($this->runObj->registration_start != '' && $this->runObj->registration_start > time()): ?>
+		<p>Die Online-Anmeldung für diesen Lauf ist erst ab dem <?= date('d.m.Y', $this->runObj->registration_start) ?> um <?= date('H:i', $this->runObj->registration_start) ?> Uhr möglich.</p>
+	<?php elseif($this->runObj->registration_end < time()): ?>
+		<p>Die Online-Anmeldung für diesen Lauf ist nicht mehr möglich. Die Anmeldung wurde am <?= date('d.m.Y', $this->runObj->registration_end) ?> um <?= date('H:i', $this->runObj->registration_end) ?> Uhr geschlossen.</p>
+	<?php else: ?>
+		<?php if($this->showForm): ?>
+			<p>F&uuml;llen Sie das unten stehende Formular aus, um sich für die Laufveranstaltung anzumelden.</p>
+			<?php if(count($this->validationErrors)): ?>
+				<div class="boxError"><strong>Fehler!</strong> Ihre Anmeldung konnte nicht abgeschlossen werden, bitte überprüfen Sie folgende Angaben:<ul><li><?= join('</li><li>', $this->validationErrors) ?></li></ul></div>
+			<?php endif; ?>
+			<form action="{{env::url}}/{{env::request}}" method="post">
+			<table cellpadding="0" cellspacing="0" border="0" id="runregForm">
+				<tr>
+					<td></td>
+					<td><strong><u>Pers&ouml;nliche Angaben:</u></strong></td>
+				</tr>
+				<tr>
+					<td>Geschlecht:<span class="required">*</span>&nbsp;</td>
+					<td><select name="runregGender"><option value="m"<?= $this->validated['runregGender']=='m'?' selected':'' ?>>m&auml;nnlich</option><option value="f"<?= $this->validated['runregGender']=='f'?' selected':'' ?>>weiblich</option></select></td>
+				</tr>
+				<tr>
+					<td>Vorname:<span class="required">*</span>&nbsp;</td>
+					<td><input type="text" name="runregFirstName" value="<?= $this->validated['runregFirstName']; ?>" /></td>
+				</tr>
+				<tr>
+					<td>Nachname:<span class="required">*</span>&nbsp;</td>
+					<td><input type="text" name="runregLastName" value="<?= $this->validated['runregLastName'] ?>" /></td>
+				</tr>
+				<tr>
+					<td>Geburtstag&nbsp;(TT.MM.JJJJ):<span class="required">*</span>&nbsp;</td>
+					<td><input type="text" name="runregBirthday" value="<?= $this->validated['runregBirthday'] ?>" /></td>
+				</tr>
+				<tr>
+					<td>Stra&szlig;e&nbsp;&amp;&nbsp;Nummer:&nbsp;</td>
+					<td><input type="text" name="runregStreet" value="<?= $this->validated['runregStreet'] ?>" /></td>
+				</tr>
+				<tr>
+					<td>PLZ:&nbsp;</td>
+					<td><input type="text" name="runregZip" value="<?= $this->validated['runregZip'] ?>" /></td>
+				</tr>
+				<tr>
+					<td>Ort:&nbsp;</td>
+					<td><input type="text" name="runregCity" value="<?= $this->validated['runregCity'] ?>" /></td>
+				</tr>
+				<tr>
+					<td>E-Mail:<span class="required">*</span>&nbsp;</td>
+					<td><input type="text" name="runregEmail" value="<?= $this->validated['runregEmail'] ?>" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>&nbsp;<br /><strong><u>Angaben zur Veranstaltung:</u></strong></td>
+				</tr>
+				<tr>
+					<td>Strecke:<span class="required">*</span>&nbsp;</td>
+					<td><select name="runregTrack">
+					<?php foreach($this->runTracks as $l_id => $l_name): ?>
+						<option value="<?= $l_id ?>"<?= $this->validated['runregTrack']==$l_id?' selected':'' ?>><?= $l_name ?></option>
+					<?php endforeach; ?>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Verein/Team/Ort:<span class="required">*</span>&nbsp;</td>
+					<td><input type="text" name="runregClub" value="<?= $this->validated['runregClub'] ?>" />
+				</tr>
+				<tr>
+					<td>Sicherheitsfrage:<span class="required">*</span>&nbsp;</td>
+					<td>tbd</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input type="checkbox" name="runregGdpr" value="read"<?= $this->validated['runregGdpr']=='read'?' checked':'' ?>/>&nbsp;Ich habe die <a href="<?= $this->url_dpr ?>">Datenschutzerklärung</a> gelesen und akzeptiere diese.<span class="required">*</span>
+						<input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
+						<br /><br /><input type="submit" name="runregGo" value="Anmelden" />
+					</td>
+				</tr>
+			</table>
+			</form>
+			<p><span class="required">*</span> Pflichtangabe</p>
+		<?php else: ?>
+			<p>Vielen Dank für deine Anmeldung, du erhältst in den nächsten Minuten eine Anmeldebestätigung per E-Mail. Sollte dir in der Bestätigung ein Fehler in deinen Daten auffallen, antworte bitte auf die Bestätigungs-E-Mail damit wir deine Angaben korrigieren können, anstatt dich erneut anzumelden.</p>
+			<p>Merke dir am besten schon jetzt den <?= date('d.m.Y', $this->runObj->date) ?> in deinem Kalender vor, damit du den Lauf nicht verpasst - wir freuen uns auf dich!</p>
+		<?php endif; ?>
+	<?php endif; ?>
+</div>
