@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="tl_content.runregistrationRun.0">
+        <source>Run event</source>
+        <target>Laufveranstaltung</target>
+      </trans-unit>
+      <trans-unit id="tl_content.runregistrationRun.1">
+        <source>Select the run event targeted by this registration form.</source>
+        <target>Wählen Sie die Laufveranstaltung für welche das Formular Registrierungen vornimmt.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" source-language="en">
+    <body>
+      <trans-unit id="CTE.runregistrationForm.0">
+        <source>Run registration form</source>
+      </trans-unit>
+      <trans-unit id="CTE.runregistrationForm.1">
+        <source>Includes a registration form which enables the website visitor to sign up for the selected run event.</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
