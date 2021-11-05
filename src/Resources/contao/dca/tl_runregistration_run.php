@@ -2,7 +2,7 @@
 	$GLOBALS['TL_DCA']['tl_runregistration_run'] = [
 		'config' => [
 			'dataContainer' => 'Table',
-			'ctable' => 'tl_runregistration_track',
+			'ctable' => array('tl_runregistration_track'),
 			'notCopyable' => true,
 			'switchToEdit' => false,
 			'enableVersioning' => false,
@@ -124,7 +124,7 @@
 			],
 		],
 	];
-	
+
 	class tl_runregistration_run extends Backend
 	{
 		public function formatLabel($row, $label, DataContainer $dc, $args)
