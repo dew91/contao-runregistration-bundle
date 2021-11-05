@@ -1,7 +1,7 @@
 <?php
 	$GLOBALS['TL_DCA']['tl_content']['palettes']['runregistrationForm'] = '{type_legend},type;{include_legend},runregistrationRun';
 	$GLOBALS['TL_DCA']['tl_content']['fields']['runregistrationRun'] = array(
-		'exclude'                 => true,
+		'exclude'                 => false,
 		'inputType'               => 'select',
 		'options_callback'        => array('tl_content_runregistrationRun', 'getOptions'),
 		'eval'                    => array('mandatory'=>true, 'chosen'=>true, 'submitOnChange'=>true, 'tl_class'=>'w50 wizard'),
