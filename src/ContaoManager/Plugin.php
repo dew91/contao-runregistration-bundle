@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Contao.
+ * Contao Manager plugin for Runregistration bundle.
  *
- * (c) Leo Feyer
+ * (c) Dominic Ernst
  *
- * @license LGPL-3.0-or-later
+ * @license GPL 3.0
  */
 
 namespace Dew91\ContaoRunregistrationBundle\ContaoManager;
@@ -18,9 +18,6 @@ use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 
-/**
- * @internal
- */
 class Plugin implements BundlePluginInterface
 {
     public function getBundles(ParserInterface $parser): array
