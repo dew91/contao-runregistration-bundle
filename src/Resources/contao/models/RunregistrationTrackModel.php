@@ -1,17 +1,18 @@
 <?php
-/**
- * Model für Laufanmeldungen
+/*
+ * Contao Runregistration bundle.
  *
- * Copyright (c) 2016 Dominic Ernst
+ * (c) 2016-2021 Dominic Ernst
+ *
+ * @license GPL 3.0
  */
- 
+
 namespace Dew91\ContaoRunregistrationBundle;
- 
+
 class RunregistrationTrackModel extends \Contao\Model
 {
-	// Tabellenname
 	protected static $strTable = 'tl_runregistration_track';
-	
+
 	public static function getTracksByRunId($run_id)
 	{
 		$t = static::$strTable;

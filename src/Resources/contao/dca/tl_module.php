@@ -1,12 +1,13 @@
 <?php
-/**
- * Eigene Palett zu tl_modules hinzufügen
+/*
+ * Contao Runregistration bundle.
+ *
+ * (c) 2016-2021 Dominic Ernst
+ *
+ * @license GPL 3.0
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['ModuleRunregistrationForm'] = '{title_legend},name,type;{config_legend},runregistration';
 
-/**
- * Eigene Felder zur Modultabelle hinzufügen
- */
+$GLOBALS['TL_DCA']['tl_module']['palettes']['ModuleRunregistrationForm'] = '{title_legend},name,type;{config_legend},runregistration';
 $GLOBALS['TL_DCA']['tl_module']['fields']['runregistration'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['runregistration'],
@@ -19,11 +20,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['runregistration'] = array
 
 class tl_module_runregistration extends Backend
 {
-	/**
-	 * Get all runs and return them as array
-	 *
-	 * @return array
-	 */
 	public function getRuns()
 	{
 		$arrRuns = array();

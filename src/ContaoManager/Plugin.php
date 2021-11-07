@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * Contao Manager plugin for Runregistration bundle.
  *
- * (c) Dominic Ernst
+ * (c) 2021 Dominic Ernst
  *
  * @license GPL 3.0
  */
@@ -28,3 +28,4 @@ class Plugin implements BundlePluginInterface
         ];
     }
 }
+?>

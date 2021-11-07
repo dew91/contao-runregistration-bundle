@@ -1,9 +1,13 @@
 <?php
-namespace Dew91\ContaoRunregistrationBundle;
+/*
+ * Contao Runregistration bundle.
+ *
+ * (c) 2016-2021 Dominic Ernst
+ *
+ * @license GPL 3.0
+ */
 
-/*use Dew91\ContaoRunregistrationBundle\RunregistrationAttendeeModel;
-use Dew91\ContaoRunregistrationBundle\RunregistrationTrackModel;*/
-//use Dew91\ContaoRunregistrationBundle;
+namespace Dew91\ContaoRunregistrationBundle;
 
 class RunregistrationExport extends \Backend
 {
@@ -11,17 +15,17 @@ class RunregistrationExport extends \Backend
 	{
 		$exportErrors = array();
 		if(\Input::post('export'))
-		{	
+		{
 			// Feldtrenner überprüfen
 			$sep = trim(\Input::post('separator'));
 			if(!in_array($sep, array(',', ';')))
 				$exportErrors[] = '&bull; '.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_error_separator'];
-			
+
 			// Zeichensatz
 			$enc = trim(\Input::post('encoding'));
 			if(!in_array($enc, array('Windows-1252', 'UTF-8')))
 				$exportErrors[] = '&bull; '.$GLOBALS['TL_LANG']['tl_runregistration_track']['export_error_charset'];
-			
+
 			// Fehler aufgetreten?
 			if(!count($exportErrors))
 			{
@@ -29,9 +33,9 @@ class RunregistrationExport extends \Backend
 				return $this->OutputCSV($sep, $enc);
 			}
 		}
-		
+
 		$track = RunregistrationTrackModel::findById(\Input::get('id'));
-		
+
 		return '<div id="tl_buttons">
 				<a class="header_back" href="contao?do=runregistration&table=tl_runregistration_track&id='.$track->pid.'" title="'.$GLOBALS['TL_LANG']['tl_runregistration_track']['button_back'][1].'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['tl_runregistration_track']['button_back'][0].'</a>
 			</div>
@@ -66,18 +70,18 @@ class RunregistrationExport extends \Backend
 			</div>
 		</form>';
 	}
-	
+
 	public function OutputCSV($sep, $encoding)
 	{
 		$track_id = \Input::get('id');
 		$track = RunregistrationTrackModel::findById($track_id);
-		
+
 		if(($objAttendees = RunregistrationAttendeeModel::findByPid($track_id)) !== NULL)
 		{
 			header("Content-Type: text/csv");
 			header("Content-Transfer-Encoding: Binary");
 			header('Content-Disposition: attachment; filename="'.$track->name.'.csv"');
-			
+
 			echo mb_convert_encoding('"ID"'.$sep.'"Strecke"'.$sep.'"Nachname"'.$sep.'"Vorname"'.$sep.'"Team/Verein"'.$sep.'"Geschlecht"'.$sep.'"Geburtstag"'.$sep.'"Adresse"'.$sep.'"PLZ"'.$sep.'"Ort"'.$sep.'"E-Mail"'.$sep.'"Anmeldezeit"', $encoding, 'UTF-8');
 			while($objAttendees->next())
 			{
