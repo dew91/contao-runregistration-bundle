@@ -1,5 +1,4 @@
 <div class="runregistration">
-	<?= $this->dumpTemplateVars() ?>
 	<h2><?= $this->runObj->name ?></h2>
 	<?php if($this->runObj->registration_start != '' && $this->runObj->registration_start > time()): ?>
 		<p>Die Online-Anmeldung für diesen Lauf ist erst ab dem <?= date('d.m.Y', $this->runObj->registration_start) ?> um <?= date('H:i', $this->runObj->registration_start) ?> Uhr möglich.</p>
