@@ -83,7 +83,6 @@ class RunregistrationFormElement extends \ContentElement
 		// Formular abgesendet?
 		if(\Input::post('runregGo'))
 		{
-			// Daten validieren!
 			$this->Template->validationErrors = $this->validateForm();
 			if(!count($this->Template->validationErrors))
 			{
@@ -138,45 +137,49 @@ class RunregistrationFormElement extends \ContentElement
 			}
 		}
 
-		// Validierte Daten an Template übergeben
 		$this->Template->validated = $this->validated;
+    $this->captchaGenerate();
   }
 
   public function validateForm()
 	{
 		$validationErrors = array();
 
-		// Geschlecht überprüfen
+    // Captcha
+    if (!$this->captchaVerify())
+      $validationErrors[] = 'Bitte Sicherheitsfrage richtig beantworten!';
+
+		// Gender
 		$this->validated['runregGender'] = trim(\Input::post('runregGender'));
 		if(!in_array($this->validated['runregGender'], array('m', 'f')))
 			$validationErrors[] = 'Bitte Geschlecht ausw&auml;hlen';
 
-		// Vorname
+		// First name
 		$this->validated['runregFirstName'] = trim(\Input::post('runregFirstName'));
 		if(strlen($this->validated['runregFirstName']) < 2 || strlen($this->validated['runregFirstName']) > 50)
 			$validationErrors[] = 'Bitte g&uuml;ltigen Vorname eingeben (2-50 Zeichen)';
 
-		// Nachname
+		// Last name
 		$this->validated['runregLastName'] = trim(\Input::post('runregLastName'));
 		if(strlen($this->validated['runregLastName']) < 2 || strlen($this->validated['runregLastName']) > 50)
 			$validationErrors[] = 'Bitte g&uuml;ltigen Nachname eingeben (2-50 Zeichen)';
 
-		// Geburtstag
+		// Birthday
 		$this->validated['runregBirthday'] = trim(\Input::post('runregBirthday'));
 		if(!preg_match('/^([0-3][0-9])\.([0-1][0-9])\.([1-2][901][0-9][0-9])$/', $this->validated['runregBirthday'], $_date) || !checkdate($_date[2], $_date[1], $_date[3]) || strtotime("$_date[1]-$_date[2]-$_date[3]") >= time())
 			$validationErrors[] = 'Bitte g&uuml;tiges Geburtstdatum eingeben';
 
-		// Straße und Hausnummer
+		// Street and number
 		$this->validated['runregStreet'] = trim(\Input::post('runregStreet'));
 		if($this->validated['runregStreet'] != '' && (strlen($this->validated['runregStreet']) < 5 || strlen($this->validated['runregStreet']) > 50 || count(explode(' ', $this->validated['runregStreet'])) < 2))
 			$validationErrors[] = 'Bitte eine g&uuml;ltige Stra&szlig;e und Hausnummer eingeben (5-50 Zeichen)';
 
-		// PLZ
+		// Zip
 		$this->validated['runregZip'] = trim(\Input::post('runregZip'));
 		if($this->validated['runregZip'] != '' && (!preg_match('/^[0-9]+$/', $this->validated['runregZip']) || strlen($this->validated['runregZip']) != 5))
 			$validationErrors[] = 'Bitte eine g&uuml;ltige Postleitzahl eingeben (5 Zeichen)';
 
-		// Ort
+		// City
 		$this->validated['runregCity'] = trim(\Input::post('runregCity'));
 		if($this->validated['runregCity'] != '' && (strlen($this->validated['runregCity']) < 3 || strlen($this->validated['runregCity']) > 50))
 			$validationErrors[] = 'Bitte einen g&uuml;ltigen Wohnort angeben (3-50 Zeichen)';
@@ -186,22 +189,21 @@ class RunregistrationFormElement extends \ContentElement
 		if(!filter_var($this->validated['runregEmail'], FILTER_VALIDATE_EMAIL))
 			$validationErrors[] = 'Bitte eine g&uuml;ltige E-Mail-Adresse eingeben (10-50 Zeichen)';
 
-		// Strecke
+		// Track
 		$this->validated['runregTrack'] = trim(\Input::post('runregTrack'));
 		if(!preg_match('/^[0-9]+$/', $this->validated['runregTrack']) || !isset($this->Template->runTracks[$this->validated['runregTrack']]))
 			$validationErrors[] = 'Bitte g&uuml;ltige Strecke ausw&auml;hlen';
 
-		// Verein
+		// Club
 		$this->validated['runregClub'] = trim(\Input::post('runregClub'));
 		if(strlen($this->validated['runregClub']) < 5 || strlen($this->validated['runregClub']) > 50)
 			$validationErrors[] = 'Bitte g&uuml;ltigen Vereins-, Team- oder Ortsnamen namen eingeben (5-50 Zeichen)';
 
-		// Datenschutzrichtlinie
+		// GDPR
 		$this->validated['runregGdpr'] = trim(\Input::post('runregGdpr'));
 		if($this->validated['runregGdpr'] != 'read')
 			$validationErrors[] = 'Bitte die Datenschutzerkl&auml;rung lesen.';
 
-		// === FEHLERMELDUNGEN ZURÜCKGEBEN ===
 		return $validationErrors;
 	}
 
@@ -227,5 +229,28 @@ class RunregistrationFormElement extends \ContentElement
 		}
 		return $arrTracks;
 	}
+
+  private function captchaFmtPass($sum)
+  {
+    return 'runreg-'.$this->runId.':'.$sum;
+  }
+
+  protected function captchaGenerate()
+  {
+    $int1 = random_int(1, 9);
+		$int2 = random_int(1, 9);
+    $sum = $int1+$int2;
+    $question = $GLOBALS['TL_LANG']['SEC']['question' . random_int(1, 3)];
+    $_SESSION['runregCaptchaHash'] = password_hash($this->captchaFmtPass($sum), PASSWORD_DEFAULT);
+    $this->Template->captchaQuestion = sprintf($question, $int1, $int2);
+    $this->Template->captchaHash = $_SESSION['runregCaptchaHash'];
+  }
+
+  protected function captchaVerify()
+  {
+    if (!isset($_POST['runregSec']) || !isset($_POST['runregHash']) || !isset($_SESSION['runregCaptchaHash']) || $_POST['runregHash'] != $_SESSION['runregCaptchaHash'])
+      return false;
+    return password_verify($this->captchaFmtPass($_POST['runregSec']), $_SESSION['runregCaptchaHash']);
+  }
 }
 ?>

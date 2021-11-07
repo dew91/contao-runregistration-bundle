@@ -62,17 +62,18 @@
 				</tr>
 				<tr>
 					<td>Verein/Team/Ort:<span class="required">*</span>&nbsp;</td>
-					<td><input type="text" name="runregClub" value="<?= $this->validated['runregClub'] ?>" />
+					<td><input type="text" name="runregClub" value="<?= $this->validated['runregClub'] ?>" /></td>
 				</tr>
 				<tr>
 					<td>Sicherheitsfrage:<span class="required">*</span>&nbsp;</td>
-					<td>tbd</td>
+					<td><?= $this->captchaQuestion; ?><br /><input type="text" name="runregSec"></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td>
 						<input type="checkbox" name="runregGdpr" value="read"<?= $this->validated['runregGdpr']=='read'?' checked':'' ?>/>&nbsp;Ich habe die <a href="<?= $this->url_dpr ?>">Datenschutzerklärung</a> gelesen und akzeptiere diese.<span class="required">*</span>
 						<input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
+						<input type="hidden" name="runregHash" value="<?= $this->captchaHash; ?>">
 						<br /><br /><input type="submit" name="runregGo" value="Anmelden" />
 					</td>
 				</tr>
