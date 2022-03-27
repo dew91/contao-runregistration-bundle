@@ -1,0 +1,40 @@
+{
+    "name": "dew91/contao-runregistration-bundle",
+    "description": "Contao extension for managing running events and online registration for runners",
+    "type": "contao-bundle",
+    "require": {
+        "contao/core-bundle": "^4.9",
+        "symfony/http-client": "4.4.*"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.0",
+        "symfony/http-client": "4.4.*"
+    },
+    "license": "GPLv3",
+    "autoload": {
+        "psr-4": {
+            "Dew91\\ContaoRunregistrationBundle\\": "src/"
+        },
+        "classmap": [
+            "src/Resources/contao/"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/",
+            "src/Resources/contao/templates/"
+        ]
+    },
+    "extra": {
+        "contao-manager-plugin": "Dew91\\ContaoRunregistrationBundle\\ContaoManager\\Plugin",
+        "symfony": {
+            "require": "^4.4"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dominic Ernst",
+            "email": "dev@dominic-ernst.com"
+        }
+    ]
+}

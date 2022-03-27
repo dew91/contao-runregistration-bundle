@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" source-language="en">
+    <body>
+      <trans-unit id="MOD.runregistration.0">
+        <source>Run registration</source>
+      </trans-unit>
+      <trans-unit id="MOD.runregistration.1">
+        <source>Manages running events and runner registrations.</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

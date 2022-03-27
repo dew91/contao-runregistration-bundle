@@ -1,0 +1,8 @@
+Contao run registration bundle
+
+This Contao bundle provides the run registration backend module for managing
+running events, runnings tracks per event and registered runners per track.
+It also provides a content element for displaying a run registration form in
+the frontend.
+
+Copyright (c) 2016-2021 Dominic Ernst - http://www.dominic-ernst.com
