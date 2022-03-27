@@ -71,7 +71,7 @@
 				<tr>
 					<td></td>
 					<td>
-						<input type="checkbox" name="runregGdpr" value="read"<?= $this->validated['runregGdpr']=='read'?' checked':'' ?>/>&nbsp;Ich habe die <a href="<?= $this->url_dpr ?>">Datenschutzerklärung</a> gelesen und akzeptiere diese.<span class="required">*</span>
+						<input type="checkbox" name="runregGdpr" value="read"<?= $this->validated['runregGdpr']=='read'?' checked':'' ?>/>&nbsp;Ich habe die <a href="/datenschutz.html">Datenschutzerklärung</a> gelesen und akzeptiere diese.<span class="required">*</span>
 						<input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
 						<input type="hidden" name="runregHash" value="<?= $this->captchaHash; ?>">
 						<br /><br /><input type="submit" name="runregGo" value="Anmelden" />
